@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#3F6F78">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Какуро - Японская головоломка с числами</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div id="screen-welcome" class="screen active">
+        <div class="welcome-content">
+            <div class="decorations">
+                <img src="assets/img/lamp.png" class="lamp lamp-welcome" alt="">
+                <div class="plane-container">
+                    <img src="assets/img/dottedLine.png" class="dotted-line" alt="">
+                    <img src="assets/img/plane.png" class="plane" alt="">
+                </div>
+            </div>
+            
+            <div class="welcome-text">
+                <p class="japanese-subtitle">加算クロス</p>
+                <h1 class="welcome-title">Какуро</h1>
+                <p class="welcome-description">
+                    Японская головоломка с числами. Заполни клетки цифрами так, чтобы суммы сошлись!
+                </p>
+            </div>
+            
+            <div class="welcome-illustration">
+                <img src="assets/background/pink.png" class="blob blob-pink" alt="">
+                <img src="assets/background/gray.png" class="blob blob-gray" alt="">
+                <img src="assets/background/beige.png" class="blob blob-beige" alt="">
+                <img src="assets/img/young_people.png" class="people-illustration" alt="">
+            </div>
+        </div>
+        
+        <button class="btn-primary" onclick="navigateTo('difficulty')">Начать игру</button>
+    </div>
+
+    <!-- Difficulty Selection Screen -->
+    <div id="screen-difficulty" class="screen">
+        <img src="assets/img/lamp.png" class="lamp lamp-difficulty" alt="">
+        <div class="difficulty-content">
+            <h1 class="screen-title">Выбери сложность</h1>
+            <p class="screen-description">
+                Чем выше сложность, тем больше поле и сложнее головоломка
+            </p>
+            
+            <div class="difficulty-options">
+                <button class="difficulty-card beginner" onclick="selectDifficulty('beginner')">
+                    <div class="difficulty-icon">🌸</div>
+                    <div class="difficulty-info-block">
+                        <div class="difficulty-name">Новичок</div>
+                        <div class="difficulty-range">Поле 3×3</div>
+                    </div>
+                </button>
+                
+                <button class="difficulty-card easy" onclick="selectDifficulty('easy')">
+                    <div class="difficulty-icon">🌱</div>
+                    <div class="difficulty-info-block">
+                        <div class="difficulty-name">Легко</div>
+                        <div class="difficulty-range">Поле 4×4</div>
+                    </div>
+                </button>
+                
+                <button class="difficulty-card medium" onclick="selectDifficulty('medium')">
+                    <div class="difficulty-icon">🌿</div>
+                    <div class="difficulty-info-block">
+                        <div class="difficulty-name">Средне</div>
+                        <div class="difficulty-range">Поле 6×6</div>
+                    </div>
+                </button>
+                
+                <button class="difficulty-card hard" onclick="selectDifficulty('hard')">
+                    <div class="difficulty-icon">🌳</div>
+                    <div class="difficulty-info-block">
+                        <div class="difficulty-name">Сложно</div>
+                        <div class="difficulty-range">Поле 8×8</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rules Screen -->
+    <div id="screen-rules" class="screen">
+        <img src="assets/img/lamp.png" class="lamp lamp-rules" alt="">
+        <div class="rules-content">
+            <div class="rules-info">
+                <h1 class="screen-title">Как играть?</h1>
+                
+                <div class="rules-steps">
+                    <div class="rule-step">
+                        <div class="step-number">1</div>
+                        <div class="step-text">
+                            <strong>Заполни белые клетки</strong> цифрами от 1 до 9
+                        </div>
+                    </div>
+                    
+                    <div class="rule-step">
+                        <div class="step-number">2</div>
+                        <div class="step-text">
+                            <strong>Сумма цифр</strong> должна равняться подсказке
+                        </div>
+                    </div>
+                    
+                    <div class="rule-step">
+                        <div class="step-number">3</div>
+                        <div class="step-text">
+                            <strong>Цифры не повторяются</strong> в одном блоке
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rules-example-box">
+                    <div class="example-title">Пример:</div>
+                    <div class="example-visual">
+                        <div class="example-grid-new">
+                            <div class="ex-cell hint-cell">
+                                <span class="hint-num top-right">3</span>
+                                <span class="hint-num bottom-left">4</span>
+                            </div>
+                            <div class="ex-cell white-cell">1</div>
+                            <div class="ex-cell white-cell">2</div>
+                            <div class="ex-cell white-cell below">3</div>
+                        </div>
+                        <div class="example-explanations">
+                            <div class="explanation">
+                                <span class="ex-arrow">→</span>
+                                <span class="ex-calc">1 + 2 = <strong>3</strong> ✓</span>
+                            </div>
+                            <div class="explanation">
+                                <span class="ex-arrow">↓</span>
+                                <span class="ex-calc">1 + 3 = <strong>4</strong> ✓</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hint-legend">
+                        <div class="legend-item">
+                            <span class="legend-icon">↗</span> число вверху справа = сумма вправо
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-icon">↙</span> число внизу слева = сумма вниз
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="screen-description difficulty-info" id="difficulty-info">
+                    Сложность: <strong id="selected-difficulty-text">Новичок</strong>
+                </p>
+            </div>
+        </div>
+        
+        <button class="btn-primary" onclick="startGame()">Начать</button>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="screen-game" class="screen">
+        <img src="assets/img/lamp.png" class="lamp lamp-game" alt="">
+        <button class="btn-close" onclick="giveUp()" aria-label="Закрыть">×</button>
+        
+        <div class="game-header">
+            <h1 class="timer" id="timer">00:00</h1>
+            <p class="game-subtitle">Заполни все клетки</p>
+        </div>
+        
+        <div class="game-board-container">
+            <div class="kakuro-board" id="kakuro-board">
+                <!-- Kakuro grid will be generated here -->
+            </div>
+        </div>
+        
+        <div class="number-pad" id="number-pad">
+            <button class="num-btn" data-num="1">1</button>
+            <button class="num-btn" data-num="2">2</button>
+            <button class="num-btn" data-num="3">3</button>
+            <button class="num-btn" data-num="4">4</button>
+            <button class="num-btn" data-num="5">5</button>
+            <button class="num-btn" data-num="6">6</button>
+            <button class="num-btn" data-num="7">7</button>
+            <button class="num-btn" data-num="8">8</button>
+            <button class="num-btn" data-num="9">9</button>
+            <button class="num-btn erase-btn" data-num="0">⌫</button>
+        </div>
+        
+        <div class="game-actions">
+            <button class="btn-hint" onclick="checkSolution()">Проверить</button>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="screen-loading" class="screen">
+        <img src="assets/img/lamp.png" class="lamp lamp-loading" alt="">
+        <div class="loading-content">
+            <div class="heart-animation">🧩</div>
+            <p class="loading-text">Подготавливаем результат</p>
+            <div class="loading-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Congratulation Screen -->
+    <div id="screen-congratulation" class="screen">
+        <img src="assets/img/lamp.png" class="lamp lamp-congrats" alt="">
+        <div class="congrats-content">
+            <h1 class="screen-title" id="result-title">Поздравляем!</h1>
+            <p class="screen-description" id="result-text">
+                Вы успешно решили головоломку за <strong id="final-time">0:00</strong>!
+            </p>
+            <img src="assets/img/woman.png" class="woman-illustration" alt="">
+        </div>
+        
+        <button class="btn-primary" onclick="restartGame()">Играть ещё</button>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
+
